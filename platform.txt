@@ -159,7 +159,7 @@ build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} '-DUSB_MANUFACTURER=
 # ----------------------------------------
 debug.executable={build.path}/{build.project_name}.elf
 debug.toolchain=gcc
-debug.toolchain.path={runtime.tools.dw-tools.path}
+debug.toolchain.path={runtime.tools.avrocd-tools.path}
 
 debug.server=openocd
 debug.server.openocd.path={debug.toolchain.path}/pyavrocd
