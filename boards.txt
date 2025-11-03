@@ -1,0 +1,160 @@
+###########################################################################################################
+## This file is created by MCUdude for use with MiniCore                                                 ##
+## https://github.com/MCUdude/MiniCore                                                                   ##
+##                                                                                                       ##
+## This is the file where fuse settings, clock frequencies, upload ports, bootloaders and                ##
+## compiler flags are located.                                                                           ##
+##                                                                                                       ##
+###########################################################################################################
+
+# Menu options
+menu.clock=Clock
+menu.eeprom=EEPROM
+menu.LTO=Compiler LTO
+
+#--------------------------------------------------------------------------------------#
+
+atmega328p_xplained_mini.name=Atmel atmega328p Xplained mini
+atmega328p_xplained_mini.programmer.default=xplainedmini
+
+atmega328p_xplained_mini.vid.0=0x03eb
+atmega328p_xplained_mini.pid.0=0x2145
+atmega328p_xplained_mini.upload_port.0.vid=0x03eb
+atmega328p_xplained_mini.upload_port.0.pid=0x2145
+
+
+atmega328p_xplained_mini.build.mcu=atmega328p
+atmega328p_xplained_mini.upload.maximum_size=32256
+atmega328p_xplained_mini.upload.maximum_data_size=2048
+atmega328p_xplained_mini.build.board=AVR_ATMEL_ATMEGA328P_XMINI
+atmega328p_xplained_mini.build.core=MCUdude_corefiles
+atmega328p_xplained_mini.build.variant=standard
+
+atmega328p_xplained_mini.bootloader.unlock_bits=0xFF
+atmega328p_xplained_mini.bootloader.lock_bits=0xFF
+atmega328p_xplained_mini.bootloader.low_fuses=0xC0
+atmega328p_xplained_mini.bootloader.extended_fuses=0xFD
+
+# Compiler link time optimization
+atmega328p_xplained_mini.menu.LTO.Os_flto=LTO enabled
+atmega328p_xplained_mini.menu.LTO.Os_flto.compiler.c.extra_flags=-Wextra -flto -g
+atmega328p_xplained_mini.menu.LTO.Os_flto.compiler.c.elf.extra_flags=-w -flto -g
+atmega328p_xplained_mini.menu.LTO.Os_flto.compiler.cpp.extra_flags=-Wextra -flto -g
+atmega328p_xplained_mini.menu.LTO.Os_flto.ltoarcmd=avr-gcc-ar
+
+atmega328p_xplained_mini.menu.LTO.Os=LTO disabled
+atmega328p_xplained_mini.menu.LTO.Os.compiler.c.extra_flags=
+atmega328p_xplained_mini.menu.LTO.Os.compiler.c.elf.extra_flags=
+atmega328p_xplained_mini.menu.LTO.Os.compiler.cpp.extra_flags=
+atmega328p_xplained_mini.menu.LTO.Os.ltoarcmd=avr-ar
+
+# Clock frequencies
+atmega328p_xplained_mini.menu.clock.16MHz=16 MHz
+atmega328p_xplained_mini.menu.clock.16MHz.build.f_cpu=16000000L
+
+atmega328p_xplained_mini.menu.clock.8MHz=8 MHz
+atmega328p_xplained_mini.menu.clock.8MHz.build.f_cpu=8000000L
+
+# EEPROM
+atmega328p_xplained_mini.menu.eeprom.keep=EEPROM retained
+atmega328p_xplained_mini.menu.eeprom.keep.bootloader.high_fuses=0xD7
+atmega328p_xplained_mini.menu.eeprom.erase=EEPROM not retained
+atmega328p_xplained_mini.menu.eeprom.erase.bootloader.high_fuses=0xDF
+
+#--------------------------------------------------------------------------------------#
+
+atmega328pb_xplained_mini.name=Atmel atmega328pb Xplained mini
+atmega328pb_xplained_mini.programmer.default=xplainedmini
+
+atmega328pb_xplained_mini.vid.0=0x03eb
+atmega328pb_xplained_mini.pid.0=0x2145
+atmega328pb_xplained_mini.upload_port.0.vid=0x03eb
+atmega328pb_xplained_mini.upload_port.0.pid=0x2145
+
+atmega328pb_xplained_mini.build.mcu=atmega328pb
+atmega328pb_xplained_mini.build.board=AVR_ATMEL_ATMEGA328PB_XMINI
+atmega328pb_xplained_mini.build.core=MCUdude_corefiles
+atmega328pb_xplained_mini.build.variant=pb-variant
+
+atmega328pb_xplained_mini.bootloader.unlock_bits=0xFF
+atmega328pb_xplained_mini.bootloader.lock_bits=0xFF
+atmega328pb_xplained_mini.bootloader.low_fuses=0xF0
+atmega328pb_xplained_mini.bootloader.extended_fuses=0xFD
+
+# Compiler link time optimization
+atmega328pb_xplained_mini.menu.LTO.Os_flto=LTO enabled
+atmega328pb_xplained_mini.menu.LTO.Os_flto.compiler.c.extra_flags=-Wextra -flto -g
+atmega328pb_xplained_mini.menu.LTO.Os_flto.compiler.c.elf.extra_flags=-w -flto -g
+atmega328pb_xplained_mini.menu.LTO.Os_flto.compiler.cpp.extra_flags=-Wextra -flto -g
+atmega328pb_xplained_mini.menu.LTO.Os_flto.ltoarcmd=avr-gcc-ar
+
+atmega328pb_xplained_mini.menu.LTO.Os=LTO disabled
+atmega328pb_xplained_mini.menu.LTO.Os.compiler.c.extra_flags=
+atmega328pb_xplained_mini.menu.LTO.Os.compiler.c.elf.extra_flags=
+atmega328pb_xplained_mini.menu.LTO.Os.compiler.cpp.extra_flags=
+atmega328pb_xplained_mini.menu.LTO.Os.ltoarcmd=avr-ar
+
+# Clock frequencies
+atmega328pb_xplained_mini.menu.clock.16MHz=16 MHz
+atmega328pb_xplained_mini.menu.clock.16MHz.build.f_cpu=16000000L
+
+atmega328pb_xplained_mini.menu.clock.8MHz=8 MHz
+atmega328pb_xplained_mini.menu.clock.8MHz.build.f_cpu=8000000L
+
+# EEPROM
+atmega328pb_xplained_mini.menu.eeprom.keep=EEPROM retained
+atmega328pb_xplained_mini.menu.eeprom.keep.bootloader.high_fuses=0xD7
+atmega328pb_xplained_mini.menu.eeprom.erase=EEPROM not retained
+atmega328pb_xplained_mini.menu.eeprom.erase.bootloader.high_fuses=0xDF
+
+
+
+#--------------------------------------------------------------------------------------#
+
+atmega168pb_xplained_mini.name=Atmel atmega168pb Xplained mini
+atmega168pb_xplained_mini.programmer.default=xplainedmini
+
+atmega168pb_xplained_mini.vid.0=0x03eb
+atmega168pb_xplained_mini.pid.0=0x2145
+atmega168pb_xplained_mini.upload_port.0.vid=0x03eb
+atmega168pb_xplained_mini.upload_port.0.pid=0x2145
+
+atmega168pb_xplained_mini.build.mcu=atmega168pb 
+atmega168pb_xplained_mini.build.board=AVR_ATMEL_ATMEGA168PB_XMINI
+atmega168pb_xplained_mini.build.core=MCUdude_corefiles
+atmega168pb_xplained_mini.build.variant=pb-variant
+
+atmega168pb_xplained_mini.bootloader.unlock_bits=0xFF
+atmega168pb_xplained_mini.bootloader.lock_bits=0xFF
+atmega168pb_xplained_mini.bootloader.low_fuses=0xF0
+atmega168pb_xplained_mini.bootloader.extended_fuses=0xFF
+
+# Compiler link time optimization
+atmega168pb_xplained_mini.menu.LTO.Os_flto=LTO enabled
+atmega168pb_xplained_mini.menu.LTO.Os_flto.compiler.c.extra_flags=-Wextra -flto -g
+atmega168pb_xplained_mini.menu.LTO.Os_flto.compiler.c.elf.extra_flags=-w -flto -g
+atmega168pb_xplained_mini.menu.LTO.Os_flto.compiler.cpp.extra_flags=-Wextra -flto -g
+atmega168pb_xplained_mini.menu.LTO.Os_flto.ltoarcmd=avr-gcc-ar
+
+atmega168pb_xplained_mini.menu.LTO.Os=LTO disabled
+atmega168pb_xplained_mini.menu.LTO.Os.compiler.c.extra_flags=
+atmega168pb_xplained_mini.menu.LTO.Os.compiler.c.elf.extra_flags=
+atmega168pb_xplained_mini.menu.LTO.Os.compiler.cpp.extra_flags=
+atmega168pb_xplained_mini.menu.LTO.Os.ltoarcmd=avr-ar
+
+# Clock frequencies
+atmega168pb_xplained_mini.menu.clock.16MHz=16 MHz
+atmega168pb_xplained_mini.menu.clock.16MHz.build.f_cpu=16000000L
+
+atmega168pb_xplained_mini.menu.clock.8MHz=8 MHz
+atmega168pb_xplained_mini.menu.clock.8MHz.build.f_cpu=8000000L
+
+# EEPROM
+atmega168pb_xplained_mini.menu.eeprom.keep=EEPROM retained
+atmega168pb_xplained_mini.menu.eeprom.keep.bootloader.high_fuses=0xD5
+atmega168pb_xplained_mini.menu.eeprom.erase=EEPROM not retained
+atmega168pb_xplained_mini.menu.eeprom.erase.bootloader.high_fuses=0xDD
+
+
+
+#--------------------------------------------------------------------------------------#

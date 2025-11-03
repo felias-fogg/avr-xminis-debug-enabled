@@ -1,0 +1,6 @@
+xplainedmini.name=Xplained Mini
+xplainedmini.communication=usb
+xplainedmini.protocol=xplainedmini
+xplainedmini.program.protocol=xplainedmini
+xplainedmini.program.tool=avrdude
+xplainedmini.program.extra_params=
