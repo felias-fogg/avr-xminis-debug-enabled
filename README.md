@@ -1,12 +1,12 @@
-# AVR-Xminis
+# AVR-Xminis (Debug enabled)
 
-This is an Arduino core for the Microchip boards
+This is a debug-enabled Arduino core for the Microchip boards
 
 - [ATmega328P Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega328p-xmini),
 - [ATmega168BP Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega168pb-xmini), and
 - [ATmega328PB Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega328pb-xmini).
 
-These boards contain an embedded debugger and programmer, and their footprint is compatible with the Arduino Uno R3 board. So, you can plug any Uno shields on it. Since there is now a [cross-platform debugging solution for the Arduino IDE 2](https://github.com/felias-fogg/PyAvrOCD/), the Xplained Minis are ideal for developing Arduino applications. And these boards are also very affordable. 
+These boards contain an embedded debugger and programmer, and their footprint is compatible with the Arduino Uno R3 board. So, you can connect any Uno shields to it. Since there is now a [cross-platform debugging solution for the Arduino IDE 2](https://github.com/felias-fogg/PyAvrOCD/), the Xplained Minis are ideal for developing Arduino applications. And these boards are also very affordable. 
 
 There exists an Arduino platform definition from Atmel from 10 years ago for these boards. However, it is completely outdated. For this reason, I based this implementation on [MCUdude's MiniCore](https://github.com/MCUdude/MiniCore), which contains a few nice additions, such as `printf`. Actually, you could simply use MiniCore, but then you need to adjust all the bells and whistles, and there are a few tricky corners to navigate. With this core, you can simply start after selecting the board. Otherwise, programming is very similar to using an UNO. 
 
