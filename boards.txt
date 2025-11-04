@@ -9,8 +9,8 @@
 
 # Menu options
 menu.clock=Clock
-menu.eeprom=EEPROM
 menu.LTO=Compiler LTO
+menu.eeprom=EEPROM
 
 #--------------------------------------------------------------------------------------#
 
