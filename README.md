@@ -10,7 +10,7 @@ These boards contain an embedded debugger and programmer, and their footprint is
 
 ## The Core
 
-There exists an Arduino platform definition from Atmel from 10 years ago for these boards as part of the standard Arduino distribution. However, it is completely outdated. It does not support the PB variants, and it is not even possible to upload anything to a board. For this reason, I based this implementation on [MCUdude's MiniCore](https://github.com/MCUdude/MiniCore), which contains a few nice additions, such as `printf`. Actually, you could simply use MiniCore, but then you need to adjust all the bells and whistles, and there are a few tricky corners to navigate. With this new core, you can simply start after selecting the board. 
+There exists an Arduino platform definition from Atmel from 10 years ago for these boards as part of the standard Arduino distribution. However, it appears to be completely outdated. For this reason, I based this implementation on [MCUdude's MiniCore](https://github.com/MCUdude/MiniCore), which contains a few nice additions, such as `printf`. Actually, you could simply use MiniCore, but then you need to adjust all the bells and whistles, and there are a few tricky corners to navigate. With this new core, you can simply start after selecting the board. 
 
 ## Selecting a board in the IDE
 
@@ -21,8 +21,8 @@ The most convenient way to select a board in the IDE 2 is to use the drop-down l
 After having chosen the board, you can adjust three board parameters:
 
 - `Clock`: Here you can specify whether the clock runs at 8 MHz or 16 MHz (default). The lower frequency can be achieved when the board is powered with 3.3 V. How to accomplish that is described in the hardware description of the board (see link above). The value of this parameter is essential for the compilation process because the timing of the compiled code depends on the CPU clock frequency. However, note that changing the value of this parameter alone will *not* change the clock frequency!
-- `EEPROM`: Here, you can choose whether EEPROM content should be deleted or retained when reprogramming the chip. Once you have done that, you need to run the `Burn Bootloader` action in the `Tools` menu. This will set the appropriate fuse (but will not burn a bootloader).
-- `Compiler LTO`: This parameter controls whether link-time optimization should be applied in the compilation and link process. If enabled (which is the default), the generated machine code can be significantly smaller. However, this kind of optimization will also remove important debugging information and will, in particular, make global variables non-global. 
+- `EEPROM`: Here, you can choose whether EEPROM content should be deleted or retained when reprogramming the chip. Once you have done that, you need to run the `Burn Bootloader` action in the `Tools` menu. This will set the appropriate fuse (but will not burn a bootloader, which is not required anyway).
+- `Compiler LTO`: This parameter controls whether link-time optimization should be applied in the compilation and link process. If enabled (which is the default), the generated machine code can be significantly smaller. However, this kind of optimization will also remove important debugging information and will, in particular, make global variables invisible in the variable pane. 
 
 ## Getting started
 
@@ -30,7 +30,7 @@ Before starting to debug, one should activate the `Optimize for Debugging` entry
 
 ## Minimizing upload time
 
-It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=cacheonly` into the sketch folder. This will load the code only into the cache and prohibit the verification process.  
+It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will usually be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=cacheonly` into the sketch folder. This will load the code only into the cache and prohibit the verification process.  
 
 ## The power of the ATmega328PB
 

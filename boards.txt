@@ -32,7 +32,7 @@ atmega328p_xplained_mini.build.variant=standard
 
 atmega328p_xplained_mini.bootloader.unlock_bits=0xFF
 atmega328p_xplained_mini.bootloader.lock_bits=0xFF
-atmega328p_xplained_mini.bootloader.low_fuses=0xC0
+#atmega328p_xplained_mini.bootloader.low_fuses=0xC0
 atmega328p_xplained_mini.bootloader.extended_fuses=0xFD
 
 # Compiler link time optimization
@@ -78,7 +78,7 @@ atmega328pb_xplained_mini.build.variant=pb-variant
 
 atmega328pb_xplained_mini.bootloader.unlock_bits=0xFF
 atmega328pb_xplained_mini.bootloader.lock_bits=0xFF
-atmega328pb_xplained_mini.bootloader.low_fuses=0xF0
+#atmega328pb_xplained_mini.bootloader.low_fuses=0xF0
 atmega328pb_xplained_mini.bootloader.extended_fuses=0xFD
 
 # Compiler link time optimization
@@ -126,7 +126,7 @@ atmega168pb_xplained_mini.build.variant=pb-variant
 
 atmega168pb_xplained_mini.bootloader.unlock_bits=0xFF
 atmega168pb_xplained_mini.bootloader.lock_bits=0xFF
-atmega168pb_xplained_mini.bootloader.low_fuses=0xF0
+#atmega168pb_xplained_mini.bootloader.low_fuses=0xF0
 atmega168pb_xplained_mini.bootloader.extended_fuses=0xFF
 
 # Compiler link time optimization
