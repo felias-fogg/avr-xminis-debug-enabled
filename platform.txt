@@ -5,7 +5,7 @@
 # https://arduino.github.io/arduino-cli/latest/platform-specification/
 
 name=Atmel AVR Xplained-minis (Debug enabled)
-version=0.9.2
+version=0.9.3
 
 # AVR compile variables
 # ---------------------
@@ -178,6 +178,8 @@ debug.cortex-debug.custom.serverArgs.2=-d
 debug.cortex-debug.custom.serverArgs.3={build.mcu}
 debug.cortex-debug.custom.serverArgs.4=--atexit
 debug.cortex-debug.custom.serverArgs.5=leavedebugwire
+debug.cortex-debug.custom.serverArgs.6=--manage
+debug.cortex-debug.custom.serverArgs.7=all
 debug.cortex-debug.custom.preLaunchCommands.0=monitor debugwire enable
 debug.cortex-debug.custom.runToEntryPoint=main
 debug.svd_file={debug.toolchain.path}/pyavrocd-util/svd/{build.mcu}.svd

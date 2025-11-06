@@ -43,7 +43,7 @@
 #if !defined(LED_BUILTIN)
   #define LED_BUILTIN (13)
 #endif
-static const uint8_t LED = LED_BUILTIN;
+#static const uint8_t LED = LED_BUILTIN;
 
 // Analog pins
 #define PIN_A0 (14)
