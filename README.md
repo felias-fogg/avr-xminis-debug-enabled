@@ -18,7 +18,7 @@ The most convenient way to select a board in the IDE 2 is to use the drop-down l
 
 ## Setting board parameters
 
-After having chosen the board, you can adjust three board parameters:
+After having chosen the board, you can adjust three board parameters under the `Tools` menu:
 
 - `Clock`: Here you can specify whether the clock runs at 8 MHz or 16 MHz (default). The lower frequency can be achieved when the board is powered with 3.3 V. How to accomplish that is described in the hardware description of the board (see link above). The value of this parameter is essential for the compilation process because the timing of the compiled code depends on the CPU clock frequency. However, note that changing the value of this parameter alone will *not* change the clock frequency!
 - `EEPROM`: Here, you can choose whether EEPROM content should be deleted or retained when reprogramming the chip. Once you have done that, you need to run the `Burn Bootloader` action in the `Tools` menu. This will set the appropriate fuse (but will not burn a bootloader, which is not required anyway).
@@ -26,7 +26,7 @@ After having chosen the board, you can adjust three board parameters:
 
 ## Powering the application circuit
 
-If you are powering some connected circuitry, e.g., an Arduino shield, then you should make sure to power it from the `IOREF` pin and not from the `5V` or `3.3V` pin. The reason for that is that `IOREF` is under the control of the on-board debugger, while the `5V` and `3.3V` pins are not controlled. When the on-board debugger power-cycles the target chip in order to enter debugWIRE mode, then `IOREF` will also be switched off and on again, while `5V` and `3.3V` are not. In other words, powering the application circuit from one of the latter pins could lead to a parasitic power supply situation, where the target MCU is powered through I/O pins. This is not healthy, and in addition, it may lead to a situation where the automatic power-cycling by the board is not effective. You will then see an error message such as: `Debug session not started: debugWIRE not activated by power-cycling. Parasitic power supply?` 
+If you are powering some connected circuitry, e.g., an Arduino shield, then you should make sure to power it from the `IOREF` pin and not from the `5V` or `3.3V` pin. The reason for that is that `IOREF` is under the control of the on-board debugger, while the `5V` and `3.3V` pins are not controlled. When the on-board debugger power-cycles the target chip in order to enter debugWIRE mode, then `IOREF` will also be switched off and on again, while `5V` and `3.3V` always deliver power. In other words, powering the application circuit from one of the latter pins could lead to a parasitic power supply situation, where the target MCU is powered through I/O pins. This is not healthy, and in addition, it may lead to a situation where the automatic power-cycling by the board is not effective. You will then see an error message such as: `Debug session not started: debugWIRE not activated by power-cycling. Parasitic power supply?` 
 
 ## Getting started
 
@@ -34,9 +34,9 @@ Before starting to debug, one should activate the `Optimize for Debugging` entry
 
 ## Minimizing upload time
 
-It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will usually be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=cacheonly` into the sketch folder. This will load the code only into the cache and prohibit the verification process.  
+It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will usually be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=cacheonly` into the sketch folder. This will load the code only into the GDB server cache and prohibit the verification process.
 
 ## The power of the ATmega328PB
 
-Note that the ATmega328PB has a few additional features, such as two additional PWM pins, a second hardware serial peripheral (`Serial1`), a second TWI peripheral (`Wire1`), and a second SPI peripheral (`SPI1`), four additional GPIO pins (PE0-PE4, respectively, Arduino D23-D26), and two extra 16-bit timers (Timer/Counter3 & 4). See also the [hardware comparison](https://onlinedocs.microchip.com/oxy/GUID-CBDC1838-0100-4F26-A45A-134958193C3B-en-US-4/index.html) by Microchip.
+Note that the ATmega328PB has a few additional features, such as two additional PWM pins, a second hardware serial peripheral (`Serial1`), a second TWI peripheral (`Wire1`), and a second SPI peripheral (`SPI1`), four additional GPIO pins (PE0-PE4, respectively, Arduino D23-D26), and two extra 16-bit timers (Timer/Counter3 & 4). See also the [hardware comparison between the ATmega328P and ATmega328PB](https://onlinedocs.microchip.com/oxy/GUID-CBDC1838-0100-4F26-A45A-134958193C3B-en-US-4/index.html).
 
