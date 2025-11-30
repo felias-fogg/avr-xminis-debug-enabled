@@ -4,3 +4,6 @@ xplainedmini.protocol=xplainedmini
 xplainedmini.program.protocol=xplainedmini
 xplainedmini.program.tool=avrdude
 xplainedmini.program.extra_params=
+
+simavr.name=Simulator (simavr)
+simavr.debug.cortex-debug.custom.serverArgs.1={debug.toolchain.path}/simavr
