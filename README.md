@@ -34,7 +34,7 @@ Before starting to debug, one should activate the `Optimize for Debugging` entry
 
 ## Minimizing upload time
 
-It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will usually be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=cacheonly` into the sketch folder. This will load the code only into the GDB server cache and prohibit the verification process.
+It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will usually be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=noinitialload` into the sketch folder. This will load the code only into the GDB server cache and prohibit the verification process.
 
 ## The power of the ATmega328PB
 
