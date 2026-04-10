@@ -4,16 +4,16 @@
 # For more info:
 # https://arduino.github.io/arduino-cli/latest/platform-specification/
 
-name=Atmel AVR Xplained-minis (Debug enabled)
-version=0.9.8
+name=XMiniCore
+version=0.9.9
 
 # AVR compile variables
 # ---------------------
 
 # Optimization flags for debugging
-compiler.optimization_flags=-Os
-compiler.optimization_flags.release=-Os
-compiler.optimization_flags.debug=-Og -ggdb3
+compiler.optimization_flags=-Os  -ggdb3 -flto -DNDEBUG
+compiler.optimization_flags.release=-Os  -ggdb3 -flto -DNDEBUG
+compiler.optimization_flags.debug=-Og -ggdb3 -fno-lto -DDEBUG
 
 # Warnings
 compiler.warning_flags=
@@ -25,18 +25,20 @@ compiler.warning_flags.all=-Wall -Wextra
 # Default "compiler.path" is correct, change only if you want to override the initial value
 compiler.path={runtime.tools.avr-gcc.path}/bin/
 compiler.c.cmd=avr-gcc
-compiler.c.flags=-c -g {compiler.optimization_flags} {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -MMD
+compiler.c.flags=-c {compiler.optimization_flags} {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -MMD
 compiler.c.elf.flags={compiler.warning_flags} {compiler.optimization_flags} -Wl,--gc-sections
 compiler.c.elf.cmd=avr-gcc
-compiler.S.flags=-c -g -x assembler-with-cpp
+compiler.S.flags=-c  {compiler.optimization_flags} -x assembler-with-cpp
 compiler.cpp.cmd=avr-g++
-compiler.cpp.flags=-c -g {compiler.optimization_flags} {compiler.warning_flags} -std=gnu++17 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD
-compiler.ar.cmd={ltoarcmd}
+compiler.cpp.flags=-c {compiler.optimization_flags} {compiler.warning_flags} -std=gnu++17 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD
+compiler.ar.cmd=avr-gcc-ar
 compiler.ar.flags=rcs
 compiler.objcopy.cmd=avr-objcopy
 compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
 compiler.objdump.cmd=avr-objdump
 compiler.objdump.flags=--disassemble --source --line-numbers --demangle --section=.text
+compiler.nm.cmd=avr-nm
+compiler.nm.flags=--numeric-sort --line-numbers --demangle --print-size --format=s
 compiler.elf2hex.flags=-O ihex -R .eeprom
 compiler.elf2hex.bin.flags=-O binary -R .eeprom
 compiler.elf2hex.cmd=avr-objcopy
@@ -181,7 +183,7 @@ debug.cortex-debug.custom.serverArgs.5=all
 debug.cortex-debug.custom.serverArgs.6=-F
 debug.cortex-debug.custom.serverArgs.7={build.f_cpu}
 debug.cortex-debug.custom.serverArgs.8=--atexit
-debug.cortex-debug.custom.serverArgs.9=leavedebugwire
+debug.cortex-debug.custom.serverArgs.9={build.atexit}
 debug.cortex-debug.custom.preLaunchCommands.0=monitor debugwire enable
 debug.cortex-debug.custom.runToEntryPoint=main
 debug.svd_file={debug.toolchain.path}/pyavrocd-util/svd/{build.mcu}.svd
