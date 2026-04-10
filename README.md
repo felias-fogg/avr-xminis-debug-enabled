@@ -1,4 +1,4 @@
-# AVR-Xminis (Debug enabled)
+# XMiniCore
 
 This is a debug-enabled Arduino core for the Microchip development boards
 
@@ -6,37 +6,148 @@ This is a debug-enabled Arduino core for the Microchip development boards
 - [ATmega168BP Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega168pb-xmini), and
 - [ATmega328PB Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega328pb-xmini).
 
-These boards contain an embedded debugger and programmer, and their footprint is compatible with the Arduino Uno R3 board. So, you can connect any Uno shield to it. Since there is now a [cross-platform debugging solution for the Arduino IDE 2](https://github.com/felias-fogg/PyAvrOCD/), the Xplained Minis are ideal for developing Arduino applications. And these boards are also very affordable. 
+These boards contain an embedded debugger and programmer. With [PyAvrOCD](https://pyavrocd.io), this makes them a plug-and-play solution for debugging using the Arduino IDE 2. In addition, their footprint is compatible with the Arduino Uno R3 board. So, you can plug in any Uno shield. 
 
-## The Core
+The core is a fork of [MCUdude's MiniCore](https://github.com/MCUdude/MiniCore), tailored to pecularities of the Xplained Mini boards. It is meant to be a replacement for the [Atmel AVR Xplained-minis](https://github.com/AtmelUniversityFrance/atmel-avr-xmini-boardmanagermodule) board package.
 
-There exists an Arduino platform definition from Atmel from 10 years ago for these boards as part of the standard Arduino distribution. However, it appears to be completely outdated. For this reason, I based this implementation on [MCUdude's MiniCore](https://github.com/MCUdude/MiniCore), which contains a few nice additions, such as `printf`. Actually, you could simply use MiniCore, but then you need to adjust all the bells and whistles, and there are a few tricky corners to navigate. With this new core, you can simply start after selecting the board. 
+# Table of contents
 
-## Selecting a board in the IDE
+- [Supported clock frequencies](#supported-clock-frequencies)
+- [EEPROM retain option](eeprom-retain-option)
+- [Debug option](#debug-option)
+- [Printf support](#printf-support)
+- [Pin macros](#pin-macros)
+- [Wiring reference](#wiring-reference)
+- [Programmers](#programmers)
+- **[How to install](#how-to-install)**
+  - [Boards Manager Installation](#boards-manager-installation)
+  - [Manual Installation](#manual-installation)
+  - [Arduino CLI Installation](#arduino-cli-installation)
+  - [PlatformIO](#platformio)
+- **[Getting started with XMiniCore](#getting-started-with-xminicore)**
+- **[Powering external circuitry](#powering-the-board-and-external-circuitry )** 
+- **[More options](further-options)**
 
-The most convenient way to select a board in the IDE 2 is to use the drop-down list from the `Select Board` field at the top of the Arduino IDE 2 window after the board has already been plugged in. One entry should read `Unconfirmed board`. If you choose that, you get a list of possible boards. If it does not show, search for `xp`. There you can select the right board. At the same time, the IDE connects to the serial connection on the board that can be used for `Serial Monitor` interaction.
+## Supported clock frequencies
 
-## Setting board parameters
+| Frequency | Comment                                                      |
+| --------- | ------------------------------------------------------------ |
+| 16 MHz    | Standard clock frequency                                     |
+| 8 MHz     | This clock frequency is chosen automatically when the target supply voltage is reduced to 3.3 volts (see XPlained Mini documentation) |
 
-After having chosen the board, you can adjust three board parameters under the `Tools` menu:
+So, if you have changed the supply voltage on the board, you need to change the clock frequency in the `Tools` menu. 
 
-- `Clock`: Here you can specify whether the clock runs at 8 MHz or 16 MHz (default). The lower frequency can be achieved when the board is powered with 3.3 V. How to accomplish that is described in the hardware description of the board (see link above). The value of this parameter is essential for the compilation process because the timing of the compiled code depends on the CPU clock frequency. However, note that changing the value of this parameter alone will *not* change the clock frequency!
-- `EEPROM`: Here, you can choose whether EEPROM content should be deleted or retained when reprogramming the chip. Once you have done that, you need to run the `Burn Bootloader` action in the `Tools` menu. This will set the appropriate fuse (but will not burn a bootloader, which is not required anyway).
-- `Compiler LTO`: This parameter controls whether link-time optimization should be applied in the compilation and link process. If enabled (which is the default), the generated machine code can be significantly smaller. However, this kind of optimization will also remove important debugging information and will, in particular, make global variables invisible in the variable pane. 
+## EEPROM retain option
 
-## Powering the application circuit
+If you want the EEPROM to be erased every time you upload a new sketch, you can turn off this option. You have to select `Burn bootloader` to enable or disable EEPROM retain. Note that when uploading a sketch while debugging, the EEPROM is always retained.
 
-If you are powering some connected circuitry, e.g., an Arduino shield, then you should make sure to power it from the `IOREF` pin and not from the `5V` or `3.3V` pin. The reason for that is that `IOREF` is under the control of the on-board debugger, while the `5V` and `3.3V` pins are not controlled. When the on-board debugger power-cycles the target chip in order to enter debugWIRE mode, then `IOREF` will also be switched off and on again, while `5V` and `3.3V` always deliver power. In other words, powering the application circuit from one of the latter pins could lead to a parasitic power supply situation, where the target MCU is powered through I/O pins. This is not healthy, and in addition, it may lead to a situation where the automatic power-cycling by the board is not effective. You will then see an error message such as: `Debug session not started: debugWIRE not activated by power-cycling. Parasitic power supply?` 
+## Debug option
 
-## Getting started
+The default for these boards is to leave debugging mode when the debugging session is terminated (`leave at exit`). This enables you to upload code using the (much faster) programming option. However, when you connect external circuitry with an external power supply, such a supply cannot be automatically disconnected when attempting to enter debugWIRE mode. In this case, the `stay at exit` should be chosen. Uploading the new code will then be done when starting the debugger, as it is described in the section on [powering external circuitry](#powering-the-board-and-external-circuitry ).
 
-Before starting to debug, one should activate the `Optimize for Debugging` entry in the `Sketch` menu. After that, one can upload the code to the board and then press the debug button. No other preparations are necessary to begin debugging—no solder bridges to cut or confusing fuses to set. And entering and leaving debugWIRE mode is fully automated without manual power-cycling or typing any funny commands. In fact, you probably will not notice that you have to deal with debugWIRE.
+## Printf support
 
-## Minimizing upload time
+Unlike the official Arduino cores, XMiniCore has printf support out of the box. If you're not familiar with printf, you should probably [read this first](https://www.tutorialspoint.com/c_standard_library/c_function_printf.htm). It's added to the Print class and will work with all libraries that inherit Print. Printf is a standard C function that lets you format text much easier than using Arduino's built-in print and println. Note that this implementation of printf will NOT print floats or doubles. This is disabled by default to save space, but can be enabled using a build flag if using PlatformIO.
 
-It is not strictly necessary to upload the code before starting debugging. One could simply compile it using the `Verify` button. The code will usually be loaded at the beginning of the debugging session anyway, but at a much slower speed. If the code is already uploaded, the debugger will only verify that the code is there, which is much faster. If you want to optimize this verification process away as well, you can place the file `pyavrocd.option` containing the single line `--load=noinitialload` into the sketch folder. This will load the code only into the GDB server cache and prohibit the verification process.
+If you're using a serial port, simply use `Serial.printf("Milliseconds since start: %ld\n", millis());`. You can also use the `F()` macro if you need to store the string in flash. Other libraries that inherit the Print class (and thus support printf) are the LiquidCrystal LCD library and the U8G2 graphical LCD library.
 
-## The power of the ATmega328PB
+## Pin macros
 
-Note that the ATmega328PB has a few additional features, such as two additional PWM pins, a second hardware serial peripheral (`Serial1`), a second TWI peripheral (`Wire1`), and a second SPI peripheral (`SPI1`), four additional GPIO pins (PE0-PE4, respectively, Arduino D23-D26), and two extra 16-bit timers (Timer/Counter3 & 4). See also the [hardware comparison between the ATmega328P and ATmega328PB](https://onlinedocs.microchip.com/oxy/GUID-CBDC1838-0100-4F26-A45A-134958193C3B-en-US-4/index.html).
+Note that you don't have to use the digital pin numbers to refer to the pins. You can also use some predefined macros that map "Arduino pins" to the port and port number. This can result in code that's more portable across different chips and Arduino cores:
 
+```
+// Use PIN_PB5 macro to refer to pin PB5 (Arduino pin 13)
+digitalWrite(PIN_PB5, HIGH);
+
+// Results in the exact same compiled code
+digitalWrite(13, HIGH);
+```
+
+## Wiring reference
+
+To extend this core's functionality a bit further, MCUdude added a few missing Wiring functions. As many of you know, Arduino is based on Wiring, but that doesn't mean the Wiring development isn't active. These functions are used as "regular" Arduino functions, and there's no need to include an external library.
+
+For further information, please view the [Wiring reference page](https://github.com/MCUdude/MiniCore/blob/master/Wiring_reference.md) of MiniCore.
+
+## Programmers
+
+The default programmer is `Xplained Mini`. It is used to change the `EEPROM retained` fuse and to upload sketches. For this reason, no bootloader is necessary. 
+
+The only alternative programmer is `Simulator (simavr)`. This programmer cannot be used to upload a sketch. However,  it will start a simulator when you request to debug the sketch.
+
+## How to install
+
+#### Boards Manager Installation
+
+This installation method requires Arduino IDE version 1.8.0 or more recent.
+
+- Open the Arduino IDE.
+
+- Open the `File > Preferences` menu item.
+
+- Enter the following URL in `Additional Boards Manager URLs`:
+
+  ```
+  https://felias-fogg.github.io/XMiniCore/package_felias-fogg_XMiniCore_index.json
+  ```
+
+- Open the `Tools > Board > Boards Manager..`.** menu item.
+
+- Wait for the platform indexes to finish downloading.
+
+- Scroll down until you see the `XMiniCore` entry and click on it.
+
+- Click `Install`.
+
+- After installation is complete, close the `Boards Manager` window.
+
+#### Manual Installation
+
+Download the most recent release (right side on repo webpage). Extract the ZIP ar TAR.GZ file, and move the extracted folder to the location `~/Documents/Arduino/hardware/XMiniCore`. Create the `hardware` and the `XMiniCore` folder if they do not exist. Rename the extracted folder (probably something like `XMiniCore-x.y.z`) to `avr`. Open the Arduino IDE, and a new category in the boards menu called `XMiniCore (in Sketchbook)` will show up.
+
+Note that a manual installation will not download binary tools such as the most recent avrdude program and the debugging tool. 
+
+#### Arduino CLI Installation
+
+Run the following command in a terminal:
+
+```
+arduino-cli core install XMiniCore:avr --additional-urls https://felias-fogg.github.io/XMiniCore/package_felias-fogg_XMiniCore_index.json
+```
+
+#### PlatformIO
+
+[PlatformIO](http://platformio.org/) is an open-source ecosystem for IoT and embedded systems. The XPlained Mini boards are only indirectly supported by the generic ATmega chips through MiniCore. This may change in the future.
+
+## Getting started with XMiniCore
+
+- Connect the board with a USB cable to your desktop computer.
+- Open the `Tools > Board` menu item, select `XMiniCore`, and select your target board.
+- Open the sketch you want to upload or debug in the `Files` menu.
+- If you want to debug the sketch, select `Optimize for Debugging` in the `Sketch` menu. This will lead to a bigger code footprint, but it will make the debugging experience much smoother.
+- Click on the Upload button (top left of the IDE window). Now your code should be running on the board.
+- If you want to debug the code, click afterward on the debug button (right of the upload button). This will verify that the code is loaded, and it will stop execution in the first line of the internal `main` function. Now, you can debug.
+
+More information on how to use the debugger can be found in the [PyAvrOCD manual](https://pyavrocd.io) in the [section on debugging](https://pyavrocd.io/debugging/).
+
+## Powering external circuitry  
+
+If you are powering some connected circuitry, e.g., an Arduino shield, from the development board, then you should make sure to power it from the `IOREF` pin and not from the `5V` or `3.3V` pin. The reason for that is that `IOREF` is under the control of the on-board debugger, while the `5V` and `3.3V` pins are not controlled. When the on-board debugger power-cycles the target chip in order to enter debugWIRE mode, then `IOREF` will also be switched off and on again, while `5V` and `3.3V` always deliver power. In the latter case, it will make the automatic power-cycle feature useless. The same is true when such external circuits are powered externally. 
+
+In the case where external power cannot be automatically disconnected, one has to proceed as follows in order to debug a sketch:
+
+1. Select `Debug mode` = `stay at exit` in the tools menu,
+
+2. disconnect all external circuits,
+
+3. start debugging by using the Verify and Debug buttons,
+4. reconnect all circuits,
+5. From now on use only the Verify and Debug buttons.
+
+If you use the Upload button, debugWIRE mode will be terminated. In this case, you have to start at step 2 again.
+
+If you want to leave debugWIRE mode and unprogram the DWEN fuse, type into the `Debug Console` the command `monitor debugwire disable` and leave the debugger afterward. 
+
+## More options
+
+If you want to make use of more options, e.g., different BOD levels or other clock frequencies, you need to make use of [MiniCore](https://github.com/MCUdude/MiniCore). In addition, you may need to set a few fuses in the SUFFER register (see board documentation), which can be done using avrdude.
