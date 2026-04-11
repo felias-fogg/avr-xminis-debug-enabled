@@ -52,11 +52,12 @@ printf "\nExtracting folder ${DOWNLOADED_FILE}.tar.bz2 to $REPOSITORY-${DOWNLOAD
 mkdir -p "$REPOSITORY-${DOWNLOADED_FILE#"v"}" && tar -xzf ${DOWNLOADED_FILE}.tar.bz2 -C "$REPOSITORY-${DOWNLOADED_FILE#"v"}" --strip-components=1
 printf "Done!\n"
 
-# Move files out of the avr folder
-mv $REPOSITORY-${DOWNLOADED_FILE#"v"}/avr/* $REPOSITORY-${DOWNLOADED_FILE#"v"}
+### Move files out of the avr folder
+##mv $REPOSITORY-${DOWNLOADED_FILE#"v"}/avr/* $REPOSITORY-${DOWNLOADED_FILE#"v"}
 
 # Delete downloaded file and empty avr folder
-rm -rf ${DOWNLOADED_FILE}.tar.bz2 $REPOSITORY-${DOWNLOADED_FILE#"v"}/avr
+rm -rf ${DOWNLOADED_FILE}.tar.bz2
+##rm -rf $REPOSITORY-${DOWNLOADED_FILE#"v"}/avr
 
 # Make sure there are no macOS related files added to the arching that's soon to be geneated
 dot_clean .
