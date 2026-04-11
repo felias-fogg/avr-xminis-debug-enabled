@@ -20,7 +20,7 @@ The core is a fork of [MCUdude's MiniCore](https://github.com/MCUdude/MiniCore),
   - [Arduino CLI Installation](#arduino-cli-installation)
   - [PlatformIO](#platformio)
 - **[Getting started with XMiniCore](#getting-started-with-xminicore)**
-     - [Upload and/or debug](#upload-and/or-debug)
+     - [Upload or debug](#upload-or-debug)
      - [Powering external circuitry](#powering-external-circuitry ) 
      - [More options](further-options)
 
