@@ -3,10 +3,10 @@
     {
       "name": "XMiniCore",
       "maintainer": "felias-fogg",
-      "websiteURL": "https://github.com/felias-fogg/XMiniCoreCore",
+      "websiteURL": "https://github.com/felias-fogg/XMiniCore",
       "email": "",
       "help": {
-        "online": "https://github.com/felias-fogg/XMiniCoreCore"
+        "online": "https://github.com/felias-fogg/XMiniCore"
       },
       "platforms": [
         {
