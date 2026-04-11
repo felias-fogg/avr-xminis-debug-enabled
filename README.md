@@ -34,7 +34,9 @@ This core supports the three following boards:
 - [ATmega328P Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega328p-xmini),
 - [ATmega328PB Xplained Mini](https://www.microchip.com/en-us/development-tool/atmega328pb-xmini).
 
-The documentation of theses boards can be accessed through the links provided above. A rough comparison sketch of the capabilities of the different boards is provided by the following table.
+  
+
+  The documentation of theses boards can be accessed through the links provided above. A rough comparison sketch of the capabilities of the different boards is provided by the following table.
 
 | Xplained Mini       | ATmega168PB    | ATmega328P     | ATmega328PB    |
 | ------------------- | -------------- | -------------- | -------------- |
@@ -42,7 +44,7 @@ The documentation of theses boards can be accessed through the links provided ab
 | SRAM                | 1 kB           | 2 kB           | 2 kB           |
 | EEPROM              | 0.5 kB         | 1 kB           | 1 kB           |
 | IO pins (excl. RST) | 24 (+1 button) | 20 (+1 button) | 24 (+1 button) |
-| Analog pins         | 7              | 7              | 7              |
+| Analog pins         | 8              | 8              | 8              |
 | PWM pins            | 6              | 6              | 9              |
 | TWI                 | 1              | 1              | 2              |
 | SPI                 | 1              | 1              | 2              |
@@ -161,11 +163,11 @@ If you are powering some connected circuitry, e.g., an Arduino shield, from the 
 
 In the case where external power cannot be automatically disconnected, one has to proceed as follows in order to debug a sketch:
 
-1. Select `Debug mode` = `stay at exit` in the tools menu,
+1. Select `Debug mode` = `stay at exit` in the `Tools` menu,
 
 2. disconnect all external circuits,
 
-3. start debugging by using the Verify and Debug buttons,
+3. start debugging by using the `Verify` and `Debug` buttons,
 4. reconnect all circuits,
 5. From now on use only the `Verify` and `Debug` buttons.
 
